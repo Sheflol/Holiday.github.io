@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выбор зоны - Праздник в каждый дом</title>
+    <meta name="description" content="Выберите идеальную зону для вашего праздника в выбранной локации.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+
+<header>
+    <div class="container header-content">
+        <a href="/" class="logo">
+            <img src="" alt="Праздник в каждый дом">
+        </a>
+    </div>
+</header>
+        <nav>
+            <a href="index.html#promotions">Акции</a>
+            <a href="index.html#search">Поиск</a>
+        </nav>
+    </div>
+</header>
+
+    <main>
+        <section class="zone-selection">
+            <div class="container">
+                <h2>Выберите зону в локации</h2>
+                
+                <?php
+                //  В реальном проекте здесь должен быть код PHP для обработки данных из формы поиска
+                //  и запроса к базе данных для получения информации о локации и доступных зонах.
+                //  В этом примере мы используем статические данные.
+
+                $location = isset($_GET['location']) ? htmlspecialchars($_GET['location']) : 'Не указана';
+                $date = isset($_GET['date']) ? htmlspecialchars($_GET['date']) : 'Не указана';
+                $adults = isset($_GET['adults']) ? (int)$_GET['adults'] : 1;
+                $children = isset($_GET['children']) ? (int)$_GET['children'] : 1;
+
+                echo "<p>Локация: <strong>" . $location . "</strong>, дата: <strong>" . $date . "</strong>.</p>";
+
+                ?>
+
+                <p>Пожалуйста, выберите свободную зону на схеме:</p>
+
+                <div class="location-scheme">
+                    <img src="" alt="Схема локации">
+
+                    <div class="zone-buttons">
+                        <button data-zone="zone1" data-price="5000" data-capacity="10">Зона 1 (до 10 человек) - 5000 руб.</button>
+                        <button data-zone="zone2" data-price="6000" data-capacity="15">Зона 2 (до 15 человек) - 6000 руб.</button>
+                        <button data-zone="zone3" data-price="7000" data-capacity="20">Зона 3 (до 20 человек) - 7000 руб.</button>
+                    </div>
+                </div>
+
+                <a href="booking.html?location=<?php echo $location; ?>&date=<?php echo $date; ?>&adults=<?php echo $adults; ?>&children=<?php echo $children; ?>" class="button">Перейти к бронированию</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Телефон: <a href="tel:88001112020">8 (800) 111-20-20</a></p>
+            <nav>
+                <a href="http://xxxxxx-m1.wsr.ru/return">Возврат</a>
+                <a href="http://xxxxxx-m1.wsr.ru/feedback">Обратная связь</a>
+            </nav>
+            <p class="copyright">&copy; 2023 Праздник в каждый дом</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        const zoneButtons = document.querySelectorAll('.zone-buttons button');
+        zoneButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const zone = this.dataset.zone;
+                const price = this.dataset.price;
+                const capacity = this.dataset.capacity;
+                alert(`Вы выбрали зону ${zone} стоимостью ${price} руб. (до ${capacity} человек)`);
+            });
+        });
+    </script>
+</body>
+
+</html>

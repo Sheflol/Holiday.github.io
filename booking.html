@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бронирование - Праздник в каждый дом</title>
+    <meta name="description"
+          content="Оформите бронирование праздника: выберите дополнительные услуги, укажите контактные данные и подтвердите заказ.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <header>
+        <div class="container header-content">
+            <a href="/" class="logo">
+                <img src="" alt="Праздник в каждый дом">
+            </a>
+            <!--  Removed header-image and logo for background image   -->
+            <nav>
+                <a href="index.html#promotions">Акции</a>
+                <a href="index.html#search">Поиск</a>
+                <a href="#">Управление бронированием</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="booking-form">
+            <div class="container">
+                <h2>Оформление бронирования</h2>
+
+                <?php
+                // Данные по умолчанию (заменить на получение из сессии/базы данных)
+                $location = isset($_GET['location']) ? htmlspecialchars($_GET['location']) : 'Не указана';
+                $date = isset($_GET['date']) ? htmlspecialchars($_GET['date']) : 'Не указана';
+                $adults = isset($_GET['adults']) ? (int)$_GET['adults'] : 1;
+                $children = isset($_GET['children']) ? (int)$_GET['children'] : 1;
+                $zonePrice = 5000; // Пример цены зоны
+
+                // Подключение к базе данных (заменить на свои данные)
+                $servername = "localhost";
+                $username = "your_username";
+                $password = "your_password";
+                $dbname = "your_database";
+
+                $conn = new mysqli($servername, $username, $password, $dbname);
+
+                if ($conn->connect_error) {
+                    die("Ошибка подключения: " . $conn->connect_error);
+                }
+
+                // Подготовка и выполнение запроса для получения деталей локации (заменить запрос)
+                $sql = "SELECT name, address FROM locations WHERE id = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("s", $location); // "s" означает string, если id число, то "i"
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    $locationName = htmlspecialchars($row["name"]);
+                    $locationAddress = htmlspecialchars($row["address"]);
+                } else {
+                    $locationName = "Локация не найдена";
+                    $locationAddress = "Адрес не найден";
+                }
+
+                $stmt->close(); // Закрываем подготовленный запрос
+
+                // Расчет общей стоимости
+                $totalGuests = $adults + $children;
+                $basePrice = $zonePrice * ($totalGuests > 10 ? 0.8 : 1); // Скидка, если больше 10 гостей
+                $totalPrice = $basePrice;
+
+                $conn->close(); // Закрываем соединение с базой данных
+                ?>
+
+                <p><b>Локация:</b> <?php echo $locationName; ?><br>
+                    <b>Адрес:</b> <?php echo $locationAddress; ?><br>
+                    <b>Дата:</b> <?php echo $date; ?><br>
+                    <b>Взрослые:</b> <?php echo $adults; ?><br>
+                    <b>Дети:</b> <?php echo $children; ?></p>
+
+                <p><b>Стоимость зоны:</b> <?php echo number_format($zonePrice, 0, ',', ' '); ?> руб.</p>
+                <?php if ($totalGuests > 10): ?>
+                    <p>При количестве гостей более 10 предоставляется скидка 20%.</p>
+                <?php endif; ?>
+                <p><b>Общая стоимость:</b> <?php echo number_format($totalPrice, 0, ',', ' '); ?> руб.</p>
+
+                <form action="confirm_booking.php" method="post">  <!--  Added a form -->
+                    <input type="hidden" name="location" value="<?php echo htmlspecialchars($location); ?>">
+                    <input type="hidden" name="date" value="<?php echo htmlspecialchars($date); ?>">
+                    <input type="hidden" name="adults" value="<?php echo $adults; ?>">
+                    <input type="hidden" name="children" value="<?php echo $children; ?>">
+                    <label for="name">Имя:</label>
+                    <input type="text" id="name" name="name" required><br><br>
+
+                    <label for="phone">Телефон:</label>
+                    <input type="tel" id="phone" name="phone" required><br><br>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required><br><br>
+
+                    <label for="comment">Комментарии:</label>
+                    <textarea id="comment" name="comment" rows="4" cols="50"></textarea><br><br>
+
+                    <button type="submit">Подтвердить бронирование</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Праздник в каждый дом</p>
+    </footer>
+    <!--  Added link to the javascript  -->
+    <script src="js/script.js"></script>
+</body>
+</html>

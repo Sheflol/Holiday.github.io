@@ -1,0 +1,69 @@
+/* Медиа-запросы для адаптивности */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    header .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    header nav {
+        margin-top: 10px;
+    }
+
+    header nav a {
+        margin: 0 10px;
+    }
+
+    .hero {
+        padding: 50px 0;
+    }
+
+    .hero h1 {
+        font-size: 2.5em;
+    }
+
+    .algorithm-steps {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .step {
+        width: 80%;
+        margin-bottom: 30px;
+    }
+
+    .search-form input[type="date"],
+    .search-form select {
+        width: 100%;
+    }
+
+    .quantity-inputs {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .promotions-list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .promotion-card {
+        width: 80%;
+    }
+
+    .subscription-form input[type="email"] {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .location-card {
+        width: 90%;
+    }
+
+    .location-scheme img {
+        max-width: 100%;
+    }
+}
