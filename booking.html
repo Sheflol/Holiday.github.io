@@ -47,7 +47,7 @@
                 <?php endif; ?>
                 <p><b>Общая стоимость:</b> <?php echo number_format($totalPrice, 0, ',', ' '); ?> руб.</p>
 
-                <form action="confirm_booking.php" method="post">  <!--  Added a form -->
+                <form action="confirm_booking.php" method="post">  
                     <input type="hidden" name="location" value="<?php echo htmlspecialchars($location); ?>">
                     <input type="hidden" name="date" value="<?php echo htmlspecialchars($date); ?>">
                     <input type="hidden" name="adults" value="<?php echo $adults; ?>">
